@@ -1,16 +1,12 @@
-// ===================== ENV SETUP (MUST BE FIRST) =====================
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// Required for ES Modules (__dirname replacement)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Force-load .env from the SAME folder as index.js
 dotenv.config({ path: path.join(__dirname, ".env") });
 
-// DEBUG — remove later
 console.log("===== ENV CHECK =====");
 console.log("EMAIL_USER =", process.env.EMAIL_USER);
 console.log("EMAIL_PASS exists =", !!process.env.EMAIL_PASS);
@@ -18,14 +14,12 @@ console.log("PORT =", process.env.PORT);
 console.log("ENV PATH =", path.join(__dirname, ".env"));
 console.log("=====================");
 
-// ===================== IMPORTS =====================
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import session from "express-session";
 
-// Models
 import userModel from "./models/userModel.js";
 import taxiDriverModel from "./models/taxiDriverModel.js";
 import tripModel from "./models/tripModel.js";
@@ -33,23 +27,20 @@ import bookingModel from "./models/bookingModel.js";
 import feedbackModel from "./models/feedbackModel.js";
 import adminModel from "./models/adminModel.js";
 
-// Routes
 import authRoutes from "./routes/authRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 
-// ===================== APP SETUP =====================
 const TravelBuddy_App = express();
 
 TravelBuddy_App.use(express.json());
 TravelBuddy_App.use(cors());
 
-// ===================== SESSION =====================
 TravelBuddy_App.use(
   session({
     secret: process.env.SESSION_SECRET || "a-very-strong-secret-key",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }, // set true only with HTTPS
+    cookie: { secure: false }, 
   })
 );
 
